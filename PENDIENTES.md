@@ -1,10 +1,16 @@
 # PENDIENTES — ImportaChina
 
 > **Última actualización:** 13 de octubre de 2026 — **documento de requerimientos
-> (§1-2) creado**, **punto 9 cerrado** (idioma) y **`php artisan optimize` agregado al
-> arranque** (§10). Con esto ya no queda ningún pendiente de código: lo que sigue es
-> documental (las ceremonias ágiles del §11) o depende de la docente.
+> (§1-2) y registro de ceremonias ágiles (§11) creados**, **punto 9 cerrado** (idioma) y
+> **`php artisan optimize` agregado al arranque** (§10). Con esto ya no queda ningún
+> pendiente de código ni documental del núcleo: lo que sigue son cosas externas al repo
+> (Trello, Figma) o preguntas para la docente.
 >
+> - **§11 (ceremonias ágiles):** creado el 13 de octubre →
+>   `docs/Registro_Ceremonias_Agiles_ImportaChina.docx`. Registra las 4 ceremonias
+>   (planificación, diaria, revisión y retrospectiva) en el Sprint 0 y en los 4 sprints,
+>   más la Definición de Terminado, el límite WIP y las métricas de ciclo y rendimiento.
+>   Las fechas salen del historial real de git.
 > - **§1-2 (documento de requerimientos):** creado el 13 de octubre con Python
 >   (`python-docx`) → `docs/Documento_Requerimientos_ImportaChina.docx`. Trae la
 >   descripción del producto, el alcance del MVP, los roles y su matriz de permisos, los
@@ -36,9 +42,10 @@
 > De paso se corrigió el **encoding**: varias vistas tenían la ñ y la á rotas
 > ("CategorÃ­a"), y el README tenía 5 caracteres dañados.
 >
-> **Al volver:** por el **registro de ceremonias ágiles** (§11 de la guía 4.1), que es lo
-> único grande que falta, y por **preguntarle a la docente qué es el "acceso como
-> invitado"**, que es lo único que no se puede resolver leyendo las guías.
+> **Al volver:** ya no queda ningún pendiente del núcleo. Queda el tablero Trello público
+> y los wireframes de Figma (externos al repo; ayudan a la nota pero la app ya está
+> completa y publicada) y **preguntarle a la docente qué es el "acceso como invitado"**,
+> que es lo único que no se puede resolver leyendo las guías.
 >
 > Con el punto 10 cerrado **ninguna historia de usuario está sin tests**.
 > Lo que queda es casi todo documental o decisiones de la docente. Ver "PUNTO 7".
@@ -200,7 +207,7 @@ buen estado; lo que falta es documental.
 | 4.1 §3 | Sprint 1-4 con 10-12 / 13-15 / 13-15 / 8-10 pts | ✅ 12 / 15 / 15 / 10, exacto |
 | 4.1 §4 | 8-10 wireframes escritorio y móvil | ⬜ externo al repo |
 | 4.1 §5 | 11 tablas con esas columnas | ✅ **las 11 exactas**, ver abajo |
-| 4.1 §6 | Repo + `main` protegida + rama por historia + PR | ⬜ **todo en `master`, sin ramas ni PR** |
+| 4.1 §6 | Repo + `main` protegida + rama por historia + PR | 🟡 `master` protegido y rama + PR adoptados el 8 oct; las 16 historias históricas quedaron en `master` (decisión documentada) |
 | 4.1 §7 | Modelos con relaciones, controladores delgados, Form Requests | ✅ 11 modelos, 10 Form Requests |
 | 4.1 §8 | Servicio que firma, comando artisan, `api_sync_logs`, lotes 20-50 | ✅ implementado y probado |
 | 4.1 §9 | CSRF en todos los formularios | ✅ los 3 sin `@csrf` son GET de filtrado |
@@ -208,10 +215,10 @@ buen estado; lo que falta es documental.
 | 4.1 §9 | `APP_DEBUG=false` en producción | ✅ un 404 real **no filtra nada** |
 | 4.1 §9 | ≥1 prueba por historia, 12-16 total | ✅ **270** en total; las 16 historias cubiertas |
 | 4.1 §10 | Publicar con dominio público y migraciones | ✅ Railway vivo, `/catalogo` 200 |
-| 4.1 §10 | `php artisan migrate --force` **y `optimize`** | 🟡 migraciones sí, `optimize` no |
-| 4.1 §11 | Ceremonias ágiles registradas | ⬜ no hay registro |
+| 4.1 §10 | `php artisan migrate --force` **y `optimize`** | ✅ migraciones y `optimize` en el arranque (13 oct) |
+| 4.1 §11 | Ceremonias ágiles registradas | ✅ en `docs/Registro_Ceremonias_Agiles_ImportaChina.docx` (13 oct) |
 | 4.2 | Tablero Trello con las 5 listas y reglas WIP | 🟡 `docs/tablero.md` hecho (8 oct); el Trello público sigue externo |
-| 4.2 | Medir tiempo de ciclo y rendimiento | ⬜ sin datos |
+| 4.2 | Medir tiempo de ciclo y rendimiento | ✅ medidos en el registro de ceremonias (§11) |
 | 4.3 | 16 historias con criterios y puntos | ✅ 52 pts en 4 sprints |
 
 **Lo que la auditoría confirmó como correcto y conviene no romper:**
@@ -1119,8 +1126,8 @@ Lo que **si** tiene valor real:
       persona y poner 1 aprobacion dejaria el PR sin poder mergearse.
 - [x] **Adoptar rama + PR por historia desde el proximo trabajo.** **Empezado el 8 de
       octubre** con este mismo cambio: rama `docs/pendientes-y-proteccion-de-master` y su PR
-      a `master`. El proximo en entrar por ese camino es el **documento de requerimientos
-      (§1-2)** y la pregunta del "acceso como invitado". Ahi el proceso es genuino, no
+      a `master`. Por ese camino ya entraron el **documento de requerimientos (§1-2)** y el
+      **registro de ceremonias (§11)**. Ahi el proceso es genuino, no
       retrospectivo.
 
 - [x] **§10:** **hecho.** Publicado en Railway y verificado en vivo.
@@ -1128,7 +1135,9 @@ Lo que **si** tiene valor real:
       ahora corren `php artisan optimize` antes de `serve` (`config:cache`, `route:cache`,
       `view:cache` y `event:cache`), lo que pide la guía. Se verificó en el log del despliegue
       (`INFO Caching framework bootstrap...`).
-- [ ] **§11:** sin registro de ceremonias ágiles (planificación, diaria, revisión, retrospectiva).
+- [x] **§11:** **hecho el 13 de octubre.** Registro de ceremonias ágiles (planificación,
+      diaria, revisión y retrospectiva) en el Sprint 0 y en los 4 sprints, más la DoD, el
+      límite WIP y las métricas. En `docs/Registro_Ceremonias_Agiles_ImportaChina.docx`.
 - [ ] **4.2 / configuración:** el tablero Trello "Gestión - ImportaChina" y los wireframes
       de Figma son **externos al repo**; no hay ni un archivo que los respalde salvo uno.
       ✅ **`docs/tablero.md` hecho el 8 de octubre** — tabla con el estado de las 16
@@ -1280,9 +1289,9 @@ php vendor\bin\pint app/.../X.php tests/...
 
 ## Checklist para retomar
 
-**Orden sugerido:** ya no queda ningún pendiente de código. El **documento de
-requerimientos** (§1-2 de la guía 4.1) **ya está hecho**; sigue por el **registro de
-ceremonias ágiles** (§11), que es lo único grande que falta.
+**Orden sugerido:** ya no queda ningún pendiente de código ni documental del núcleo. Lo
+único que resta son cosas externas al repo (tablero Trello público y wireframes de Figma)
+y la pregunta del "acceso como invitado" para la docente.
 
 - [x] **Punto 8 (el bug de HU-01):** hecho el 4 de octubre. `RegisteredUserController::store()`
       ahora asigna `role_id` con `Role::firstOrCreate(['name' => 'Cliente'])->id` y `status`
@@ -1313,7 +1322,8 @@ ceremonias ágiles** (§11), que es lo único grande que falta.
             `master` protegido (PR obligatorio, sin push directo) y este cambio entró por
             rama + PR. Las 16 historias ya hechas no llevan ramas retrospectivas
             (decisión documentada arriba)
-      - [ ] registro de ceremonias ágiles (§11)
+      - [x] registro de ceremonias ágiles (§11) — **hecho el 13 de octubre**, en
+            `docs/Registro_Ceremonias_Agiles_ImportaChina.docx`
       - [x] `docs/tablero.md` — **hecho el 8 de octubre**: tabla con las 16 HU, rol, puntos,
             criterios, estado y los tests que cubren cada una. Quedan externos al repo el
             tablero Trello público y los wireframes de Figma
