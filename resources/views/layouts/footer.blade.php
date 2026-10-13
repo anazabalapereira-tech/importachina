@@ -7,7 +7,7 @@
             </div>
 
             <p class="text-center text-sm text-gray-500 sm:text-right">
-                {{ __('Proyecto de comercio electronico e importacion. Prices in bolivianos (Bs).') }}
+                {{ __('Proyecto de comercio electrónico e importación. Precios en bolivianos (Bs).') }}
             </p>
 
             <nav class="flex items-center gap-4 text-sm">
