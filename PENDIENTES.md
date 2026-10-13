@@ -1,9 +1,17 @@
 # PENDIENTES — ImportaChina
 
-> **Última actualización:** 13 de octubre de 2026 — **punto 9 cerrado** (idioma) y
-> **`php artisan optimize` agregado al arranque** (§10). Con esto ya no queda ningún
-> pendiente de código: lo que sigue es documental o depende de la docente.
+> **Última actualización:** 13 de octubre de 2026 — **documento de requerimientos
+> (§1-2) creado**, **punto 9 cerrado** (idioma) y **`php artisan optimize` agregado al
+> arranque** (§10). Con esto ya no queda ningún pendiente de código: lo que sigue es
+> documental (las ceremonias ágiles del §11) o depende de la docente.
 >
+> - **§1-2 (documento de requerimientos):** creado el 13 de octubre con Python
+>   (`python-docx`) → `docs/Documento_Requerimientos_ImportaChina.docx`. Trae la
+>   descripción del producto, el alcance del MVP, los roles y su matriz de permisos, los
+>   6 módulos, **16 requerimientos funcionales (RF-01…RF-16)** y **4 no funcionales
+>   (RNF-01…RNF-04)**, 9 reglas de negocio, el Product Backlog con las 16 historias y sus
+>   criterios, la trazabilidad RF ↔ HU ↔ pruebas, la Definición de Terminado y los anexos
+>   (rutas y 11 tablas). Todo contrastado con el código real.
 > - **Punto 9:** se agregó `lang/es.json` con las traducciones de las pantallas de Breeze
 >   que seguían en inglés (`forgot/reset/confirm-password`, `verify-email` y los partials
 >   del perfil) y se corrigió el pie de página. `tests/Feature/LocalizationTest.php` (6
@@ -28,9 +36,9 @@
 > De paso se corrigió el **encoding**: varias vistas tenían la ñ y la á rotas
 > ("CategorÃ­a"), y el README tenía 5 caracteres dañados.
 >
-> **Al volver:** por el **documento de requerimientos** (§1-2 de la guía 4.1), que
-> sigue sin existir, y por **preguntarle a la docente qué es el "acceso como invitado"**,
-> que es lo único que no se puede resolver leyendo las guías.
+> **Al volver:** por el **registro de ceremonias ágiles** (§11 de la guía 4.1), que es lo
+> único grande que falta, y por **preguntarle a la docente qué es el "acceso como
+> invitado"**, que es lo único que no se puede resolver leyendo las guías.
 >
 > Con el punto 10 cerrado **ninguna historia de usuario está sin tests**.
 > Lo que queda es casi todo documental o decisiones de la docente. Ver "PUNTO 7".
@@ -185,7 +193,7 @@ buen estado; lo que falta es documental.
 | 4.0 | ≥1 historia que dependa de la API | ✅ HU-05 y HU-09 |
 | 4.0 | 2 wireframes en Figma | ⬜ externo al repo |
 | 4.0 | Claves de la API solo en el servidor | ✅ `config/services.php`, todo por `env()` |
-| 4.1 §1 | 12-16 requerimientos funcionales + 4 no funcionales | ⬜ **no existe el documento** |
+| 4.1 §1 | 12-16 requerimientos funcionales + 4 no funcionales | ✅ **16 RF + 4 RNF**, en `docs/Documento_Requerimientos_ImportaChina.docx` (13 oct) |
 | 4.1 §1 | Roles: Administrador, Vendedor, Cliente | ✅ son los 3 de `RoleSeeder` |
 | 4.1 §2 | 16 historias, ≥2 criterios, puntos 1/2/3/5/8, 45-55 pts | ✅ **52 pts**, ninguno >8 |
 | 4.1 §2 | Reparto Admin 4-5 / Vendedor 3 / Cliente 7-8 | ✅ 5 / 3 / 8, exacto |
@@ -198,7 +206,7 @@ buen estado; lo que falta es documental.
 | 4.1 §9 | CSRF en todos los formularios | ✅ los 3 sin `@csrf` son GET de filtrado |
 | 4.1 §9 | `.env` nunca en el repositorio | ✅ en `.gitignore` y sin trackear |
 | 4.1 §9 | `APP_DEBUG=false` en producción | ✅ un 404 real **no filtra nada** |
-| 4.1 §9 | ≥1 prueba por historia, 12-16 total | ✅ **240** en total; las 16 historias cubiertas |
+| 4.1 §9 | ≥1 prueba por historia, 12-16 total | ✅ **270** en total; las 16 historias cubiertas |
 | 4.1 §10 | Publicar con dominio público y migraciones | ✅ Railway vivo, `/catalogo` 200 |
 | 4.1 §10 | `php artisan migrate --force` **y `optimize`** | 🟡 migraciones sí, `optimize` no |
 | 4.1 §11 | Ceremonias ágiles registradas | ⬜ no hay registro |
@@ -1055,9 +1063,10 @@ En el panel de Railway conviene confirmar:
       - ✅ **HU-01 y HU-02**: hechos en el punto 8 (14 y 22 tests).
       La guía 4.1 §9 pide 12-16 pruebas, una por historia; con **240 tests** la cifra
       global se cumple de sobra. (HU-08 tiene `ProductDetailTest`.)
-- [ ] **§1-2 de la guía 4.1:** no existe documento de requerimientos (12-16 funcionales
-      + 4 no funcionales). Se necesita para la nota. **Es el pendiente documental más
-      grande**: la guía lo pide en la primera sección.
+- [x] **§1-2 de la guía 4.1:** **hecho el 13 de octubre.** Documento de requerimientos en
+      `docs/Documento_Requerimientos_ImportaChina.docx` (Word): **16 requerimientos
+      funcionales + 4 no funcionales**, roles, módulos, reglas de negocio y el Product
+      Backlog con las 16 historias. Incluye trazabilidad RF ↔ HU ↔ pruebas.
       Lo no funcional ya está cumplido y se puede documentar con lo verificado: seguridad
       (CSRF, `.env` fuera del repo, `APP_DEBUG=false`, claves por `env()`), rendimiento
       (catálogo servido desde la base, no se consulta la API en cada visita), usabilidad
@@ -1271,9 +1280,9 @@ php vendor\bin\pint app/.../X.php tests/...
 
 ## Checklist para retomar
 
-**Orden sugerido:** ya no queda ningún bug de comportamiento. Sigue por el **documento de
-requerimientos** (§1-2 de la guía 4.1), que es lo único grande que bloquea la nota, y
-decide si el **punto 9** (idioma) entra antes que el paperwork.
+**Orden sugerido:** ya no queda ningún pendiente de código. El **documento de
+requerimientos** (§1-2 de la guía 4.1) **ya está hecho**; sigue por el **registro de
+ceremonias ágiles** (§11), que es lo único grande que falta.
 
 - [x] **Punto 8 (el bug de HU-01):** hecho el 4 de octubre. `RegisteredUserController::store()`
       ahora asigna `role_id` con `Role::firstOrCreate(['name' => 'Cliente'])->id` y `status`
@@ -1297,7 +1306,8 @@ decide si el **punto 9** (idioma) entra antes que el paperwork.
       de Breeze que quedaban en inglés y `LocalizationTest` (6 tests) lo cubre. Ver la
       sección de arriba.
 - [ ] **Punto 7, lo que bloquea la nota:**
-      - [ ] documento de requerimientos (§1-2 de la guía 4.1) — **lo más grande**
+      - [x] documento de requerimientos (§1-2 de la guía 4.1) — **hecho el 13 de octubre**,
+            en `docs/Documento_Requerimientos_ImportaChina.docx`
       - [x] tests de HU-09 — hechos en el punto 10 (`CatalogPageTest`, 10 tests)
       - [x] ramas por historia y Pull Requests (§6) — **proceso adoptado el 8 de octubre**:
             `master` protegido (PR obligatorio, sin push directo) y este cambio entró por
