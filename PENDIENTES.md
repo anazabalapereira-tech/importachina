@@ -1,11 +1,16 @@
 # PENDIENTES — ImportaChina
 
 > **Última actualización:** 13 de octubre de 2026 — **documento de requerimientos
-> (§1-2) y registro de ceremonias ágiles (§11) creados**, **punto 9 cerrado** (idioma) y
-> **`php artisan optimize` agregado al arranque** (§10). Con esto ya no queda ningún
-> pendiente de código ni documental del núcleo: lo que sigue son cosas externas al repo
-> (Trello, Figma) o preguntas para la docente.
+> (§1-2) y registro de ceremonias ágiles (§11) creados**, **punto 9 cerrado** (idioma),
+> **`php artisan optimize` agregado al arranque** (§10) y **limpieza del código muerto y
+> de los duplicados de `docs/`**. Con esto ya no queda ningún pendiente de código ni
+> documental del núcleo: lo que sigue son cosas externas al repo (Trello, Figma) o
+> preguntas para la docente.
 >
+> - **Limpieza:** borrados el splash `resources/views/welcome.blade.php` y
+>   `app/Http/Controllers/HomeController.php` (código muerto, no ruteado) y los duplicados
+>   de `docs/` de las guías. La fuente de verdad de las guías queda en la **raíz** (`4.0`
+>   a `4.3`). `php artisan test` → **270 passing**.
 > - **§11 (ceremonias ágiles):** creado el 13 de octubre →
 >   `docs/Registro_Ceremonias_Agiles_ImportaChina.docx`. Registra las 4 ceremonias
 >   (planificación, diaria, revisión y retrospectiva) en el Sprint 0 y en los 4 sprints,
@@ -170,6 +175,10 @@ Las HTML de **4.2 y 4.3 solo existen ahí**: en `docs/` únicamente están las v
 
 Mientras no se commiteen, el repositorio no respalda el material de la práctica. Hay que
 decidir la fuente de verdad (ver punto 7) y **commitear lo que se conserve**.
+
+**Resuelto el 8 de octubre (commit `49686aa`)** al commitear las cuatro guías, y cerrado
+del todo el **13 de octubre** al borrar las copias de `docs/` y dejar la raíz como fuente
+de verdad única (ver "limpieza" en el punto 7).
 
 ### ✅ Bug 3 — Este archivo mentía en dos cifras (resuelto)
 
@@ -1143,14 +1152,16 @@ Lo que **si** tiene valor real:
       ✅ **`docs/tablero.md` hecho el 8 de octubre** — tabla con el estado de las 16
       historias (rol, puntos, criterios y tests), pensada para la nota.
       ✅ Con el punto 8 cerrado, las 16 historias están en Hecho (antes 15 y media).
-- [ ] **`resources/views/welcome.blade.php`** (81 KB) es el splash de Laravel, no se usa.
-      Es el único archivo grande que sobra en el repo.
-- [ ] **`docs/` existe pero está desatendido.** Contiene `16_historias_de_usuario_ImportaChina.txt`,
-      `guia del proyecto.txt`, `guias_paso_a_paso_Trello_y_Kanban.txt`,
-      `configuracion del proyecto, user y stories.txt` y una copia de la guía 4.1 en `.html`.
-      ✅ **8 de octubre:** las 4 guías de la raíz (`4.0` a `4.3`) **ya están commiteadas**
-      (commit `49686aa`), así que el "commitear 4.2 y 4.3" quedó hecho; ahora queda decidir
-      la fuente de verdad (`docs/` vs. raíz) y borrar la duplicada.
+- [x] **`resources/views/welcome.blade.php` y `HomeController`:** **borrados el 13 de
+      octubre.** El splash de Laravel (81 KB) solo servía a `HomeController`, que no estaba
+      ruteado ni probado. Ninguno se usaba; la ruta `/` sigue redirigiendo al catálogo.
+- [x] **`docs/` desatendido:** **resuelto el 13 de octubre.** Se tomó la **raíz como
+      fuente de verdad** de las guías (`4.0` a `4.3`, ya commiteadas el 8 de octubre en
+      `49686aa`) y se borraron sus copias de `docs/`: la del `4.1` en `.html` (idéntica),
+      `configuracion del proyecto, user y stories.txt` (idéntica al `4.0`), `guia del
+      proyecto.txt` (mismo contenido, otro formato) y `guias_paso_a_paso_Trello_y_Kanban.txt`
+      (el `.txt` del `4.2`). Se conservan `docs/tablero.md`, los dos `.docx` de la entrega y
+      `16_historias_de_usuario_ImportaChina.txt` (referenciado por `tablero.md`).
 
 ### Lo que exige `configuracion del proyecto, user y stories.txt`
 
@@ -1298,8 +1309,8 @@ y la pregunta del "acceso como invitado" para la docente.
       explícito. `RegistrationTest` (14 tests) y `AuthenticationTest` (22) assertan los
       criterios de HU-01 y HU-02, y se **verificó que fallan** commenting el arreglo.
       Con `RefreshDatabase` los roles no se siembran: los tests lo hacen en `setUp()`.
-- [ ] **Bug 2:** commitear las guías `4.0`-`4.3` de la raíz. Hoy están sin trackear y
-      **4.2 y 4.3 no existen en ningún otro lado**: no están en GitHub.
+- [x] **Bug 2:** **hecho.** Las cuatro guías de la raíz (`4.0` a `4.3`) se commitearon el
+      8 de octubre (commit `49686aa`) y quedan como fuente de verdad única.
 - [x] **Punto 5 (HU-05):** **cerrado el 8 de octubre de 2026.** El código está terminado y
       probado con `Http::fake()`, pero **las credenciales no se pueden conseguir**: la API
       pide verificar un celular y Bolivia no está en la lista de países. Se agregó el
@@ -1328,7 +1339,8 @@ y la pregunta del "acceso como invitado" para la docente.
             criterios, estado y los tests que cubren cada una. Quedan externos al repo el
             tablero Trello público y los wireframes de Figma
       - [x] `php artisan optimize` en el `Procfile` (§10) — **hecho el 13 de octubre**
-- [ ] **Limpieza (decidir):** `resources/views/welcome.blade.php` (82 KB, splash de Laravel
-      sin usar) y los duplicados de `docs/`.
+- [x] **Limpieza:** **hecha el 13 de octubre.** Borrados `welcome.blade.php` +
+      `HomeController` (código muerto) y los duplicados de `docs/`. `php artisan test` →
+      **270 passing**.
 - [ ] **Pregunta para la docente:** confirmar si el "acceso como invitado" es el tablero
       Trello público o una cuarta persona en el sistema web. Ver la sección de arriba.
