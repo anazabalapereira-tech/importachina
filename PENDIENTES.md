@@ -1,6 +1,20 @@
 # PENDIENTES — ImportaChina
 
-> **Última actualización:** 8 de octubre de 2026 — **punto 5 cerrado**. La API de AliExpress
+> **Última actualización:** 13 de octubre de 2026 — **punto 9 cerrado** (idioma) y
+> **`php artisan optimize` agregado al arranque** (§10). Con esto ya no queda ningún
+> pendiente de código: lo que sigue es documental o depende de la docente.
+>
+> - **Punto 9:** se agregó `lang/es.json` con las traducciones de las pantallas de Breeze
+>   que seguían en inglés (`forgot/reset/confirm-password`, `verify-email` y los partials
+>   del perfil) y se corrigió el pie de página. `tests/Feature/LocalizationTest.php` (6
+>   tests) lo cubre y **falla si el archivo falta**.
+> - **§10:** `Procfile` y `nixpacks.toml` ahora corren `php artisan optimize` antes de
+>   `serve`. Verificado en los logs del despliegue.
+> - `php artisan test` → **270 passing (971 assertions)**.
+>
+> ---
+>
+> **8 de octubre de 2026** — **punto 5 cerrado**. La API de AliExpress
 > **no se puede usar desde Bolivia** (pide verificar un número de celular y el país no figura
 > entre los soportados), así que en vez de dejar el capítulo a medias se agregó un
 > **modo demostración** que ejecuta el flujo completo de importación sin credenciales.
@@ -287,7 +301,7 @@ Si se borran: `php artisan db:seed --class=DemoSalesSeeder`
 | 6 | HU-04 teléfono y dirección en perfil | ✅ **Hecho** |
 | 7 | Mejoras menores | 🟡 A medias — falta lo que dice abajo |
 | **8** | **Auditoría 4.0-4.3: HU-01 no asignaba el rol Cliente** | ✅ **Hecho** — corregido y cubierto con 30 tests |
-| **9** | **Idioma: 7 vistas de Breeze en inglés** (`lang/es/` ya existe y el login/registro están en español) | 🔴 **Pendiente — corregido el 8 oct** |
+| **9** | **Idioma: 7 vistas de Breeze en inglés** (`lang/es/` ya existe y el login/registro están en español) | ✅ **Hecho** — `lang/es.json` + 6 tests (13 oct) |
 | — | **Publicar en Railway** | ✅ **Hecho** — https://importachina-production.up.railway.app |
 
 ---
@@ -804,7 +818,21 @@ antes y después.
 
 ---
 
-# ⬜ PUNTO 9 — Pantallas de Breeze en inglés (nuevo 4 de octubre, **corregido el 8 de octubre**)
+# ✅ PUNTO 9 — Pantallas de Breeze en inglés (nuevo 4 de octubre, **cerrado el 13 de octubre**)
+
+> **Cerrado el 13 de octubre de 2026.** Se agregó `lang/es.json` (traducción JSON, el
+> mecanismo estándar de Laravel para claves que no están en un archivo `.php`) con las
+> cadenas de las 7 vistas. No hizo falta tocar los `.blade.php` de Breeze: `__()` resuelve
+> ahora contra el JSON. Además se corrigió el pie de página, que tenía un fragmento en
+> inglés ("Prices in bolivianos") y le faltaban tildes.
+>
+> `tests/Feature/LocalizationTest.php` (6 tests) cubre las pantallas de recuperar/restablecer/
+> confirmar contraseña, la verificación de correo y el perfil, y **falla si `lang/es.json`
+> falta** (verificado). El dashboard ya estaba en español desde el punto de cierre del
+> panel con KPIs (commit `46f1e99`), así que las vistas que quedaban son 6, no 7: el
+> `welcome` es el splash de Laravel y no está ruteado.
+>
+> Verificado en producción: `/forgot-password` y `/profile` salen en español.
 
 **Apareció al escribir los tests de HU-02**, cuando el test empezó a assertar el mensaje de
 error del login y la página salió con "Log in", "Remember me", "Forgot your password?".
@@ -1034,9 +1062,9 @@ En el panel de Railway conviene confirmar:
       (CSRF, `.env` fuera del repo, `APP_DEBUG=false`, claves por `env()`), rendimiento
       (catálogo servido desde la base, no se consulta la API en cada visita), usabilidad
       (Form Requests con mensajes en español, rutas con nombre) y responsive.
-      ⬜ **Punto 9 pendiente:** `lang/es/` ya existe y login/registro/navegación están en
-      español; quedan **7 vistas** en inglés (`welcome`, `dashboard`, `verify-email`,
-      `forgot/reset/confirm-password` y los partials de perfil).
+      ✅ **Punto 9 cerrado el 13 de octubre:** `lang/es.json` traduce las pantallas que
+      quedaban en inglés (`verify-email`, `forgot/reset/confirm-password` y los partials de
+      perfil). El `welcome` es el splash de Laravel y no está ruteado, así que se ignora.
       ✅ Con el punto 10 el responsive subió de 20 de 21 vistas a **todas**: la navegación
       y el catálogo se rehicieron con `sm:/md:/lg:/xl:`.
 #### `6` de la guida 4.1: ramas por historia y Pull Requests
@@ -1087,9 +1115,10 @@ Lo que **si** tiene valor real:
       retrospectivo.
 
 - [x] **§10:** **hecho.** Publicado en Railway y verificado en vivo.
-- [ ] **§10, detalle menor:** el `Procfile` corre `migrate` pero **no `php artisan optimize`**,
-      que la guía pide explícitamente. railpack hace `config:cache` en el build, pero no
-      `route:cache` ni `view:cache`. Bajo impacto, pero es lo que pide la guía.
+- [x] **§10, detalle menor:** **hecho el 13 de octubre.** El `Procfile` y `nixpacks.toml`
+      ahora corren `php artisan optimize` antes de `serve` (`config:cache`, `route:cache`,
+      `view:cache` y `event:cache`), lo que pide la guía. Se verificó en el log del despliegue
+      (`INFO Caching framework bootstrap...`).
 - [ ] **§11:** sin registro de ceremonias ágiles (planificación, diaria, revisión, retrospectiva).
 - [ ] **4.2 / configuración:** el tablero Trello "Gestión - ImportaChina" y los wireframes
       de Figma son **externos al repo**; no hay ni un archivo que los respalde salvo uno.
@@ -1176,11 +1205,14 @@ la tienda sin iniciar sesión" hoy ya funciona.
 | `tests/Feature/CatalogPageTest.php` | **HU-09** + regresión del contenido mixto (punto 10) | 10 |
 | `tests/Feature/DemoCatalogSpanishMigrationTest.php` | la migración de catálogo a español | 5 |
 | `tests/Feature/DemoImageCleanupTest.php` | limpieza de imágenes de servicios apagados | 3 |
-| **Subtotal de Breeze y demás** | | **77** |
+| `tests/Feature/LocalizationTest.php` | **Punto 9**: idioma de las pantallas de Breeze (13 de octubre) | **6** |
+| **Subtotal de Breeze y demás** | | **83** |
 
-**Total: 240 passing (822 assertions).** Verificado con `php artisan test` el 8 de octubre
-de 2026, después del modo demostración de HU-05. Antes de este cambio eran 229; el 4 de
-octubre, después del punto 8, 211 (691 assertions), y el punto de partida eran 181.
+**Total: 270 passing (971 assertions).** Verificado con `php artisan test` el 13 de octubre
+de 2026, después del punto 9 (`LocalizationTest`, 6 tests). La tabla de arriba es la del
+8 de octubre (240) y no desglosa las suites que se agregaron después con los commits de
+mensajes de validación, URLs largas, galería y el panel con KPIs; por eso suma menos que el
+total real. Antes eran 229 y el punto de partida 181.
 
 > `AccessControlTest` tiene **7 métodos** pero corre **26 tests**: tres llevan `@DataProvider`
 > (uno con 7 rutas de admin y 7 de vendedor) y se expanden. No confundir métodos con tests.
@@ -1214,7 +1246,7 @@ Factories que se rellenaron (estaban vacías, con cuerpo `//`):
 ## Comandos útiles
 
 ```bash
-php artisan test                                     # debe dar 240 passing (822 assertions)
+php artisan test                                     # debe dar 270 passing (971 assertions)
 php artisan test --filter=SellerOrderTest            # HU-12/13/15
 php artisan test --filter=SalesReportTest           # solo HU-16
 php artisan test --filter=ProfileContactInfoTest     # HU-04 teléfono/dirección
@@ -1261,10 +1293,9 @@ decide si el **punto 9** (idioma) entra antes que el paperwork.
       `ALIEXPRESS_DEMO=true`), dominio, migraciones en el `Procfile` y contraseñas cambiadas.
 - [x] **Auditoría 4.0-4.3:** hecha el 3 de octubre de 2026. Las 11 tablas y los 52 puntos
       del backlog coinciden con la guía.
-- [ ] **Punto 9 (idioma):** quedan 7 vistas de Breeze en inglés. `lang/es/` ya existe
-      (commiteado) y el login, registro, navegación y validaciones **ya están en español**.
-      Ver la sección de arriba. Abarca `verify-email`, `forgot/reset/confirm-password`
-      (HU-02) y el perfil (HU-04).
+- [x] **Punto 9 (idioma):** **cerrado el 13 de octubre.** `lang/es.json` traduce las pantallas
+      de Breeze que quedaban en inglés y `LocalizationTest` (6 tests) lo cubre. Ver la
+      sección de arriba.
 - [ ] **Punto 7, lo que bloquea la nota:**
       - [ ] documento de requerimientos (§1-2 de la guía 4.1) — **lo más grande**
       - [x] tests de HU-09 — hechos en el punto 10 (`CatalogPageTest`, 10 tests)
@@ -1276,7 +1307,7 @@ decide si el **punto 9** (idioma) entra antes que el paperwork.
       - [x] `docs/tablero.md` — **hecho el 8 de octubre**: tabla con las 16 HU, rol, puntos,
             criterios, estado y los tests que cubren cada una. Quedan externos al repo el
             tablero Trello público y los wireframes de Figma
-      - [ ] `php artisan optimize` en el `Procfile` (§10)
+      - [x] `php artisan optimize` en el `Procfile` (§10) — **hecho el 13 de octubre**
 - [ ] **Limpieza (decidir):** `resources/views/welcome.blade.php` (82 KB, splash de Laravel
       sin usar) y los duplicados de `docs/`.
 - [ ] **Pregunta para la docente:** confirmar si el "acceso como invitado" es el tablero
