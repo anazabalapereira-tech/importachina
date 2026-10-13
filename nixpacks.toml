@@ -20,7 +20,7 @@ cmds = [
 # --seed es seguro de repetir: RoleSeeder y DatabaseSeeder usan firstOrCreate.
 # Sin esto, la base de Railway quedaria sin roles y sin usuarios para entrar.
 [phases.release]
-cmds = ["php artisan migrate --force --seed"]
+cmds = ["php artisan migrate --force --seed", "php artisan optimize"]
 
 [start]
-startCmd = "php artisan serve --host=0.0.0.0 --port=$PORT"
+startCmd = "php artisan migrate --force --seed && php artisan optimize && php artisan serve --host=0.0.0.0 --port=$PORT"
