@@ -1,11 +1,12 @@
 # PENDIENTES — ImportaChina
 
-> **Última actualización:** 13 de octubre de 2026 — **documento de requerimientos
+> **Última actualización:** 21 de octubre de 2026 — **descartado el pendiente del
+> "acceso como invitado"**: se asume que era el tablero Trello público y no se implementa
+> nada en el sistema. Antes, el **13 de octubre de 2026:** **documento de requerimientos
 > (§1-2) y registro de ceremonias ágiles (§11) creados**, **punto 9 cerrado** (idioma),
 > **`php artisan optimize` agregado al arranque** (§10) y **limpieza del código muerto y
 > de los duplicados de `docs/`**. Con esto ya no queda ningún pendiente de código ni
-> documental del núcleo: lo que sigue son cosas externas al repo (Trello, Figma) o
-> preguntas para la docente.
+> documental del núcleo: lo que sigue son cosas externas al repo (Trello, Figma).
 >
 > - **Limpieza:** borrados el splash `resources/views/welcome.blade.php` y
 >   `app/Http/Controllers/HomeController.php` (código muerto, no ruteado) y los duplicados
@@ -49,8 +50,7 @@
 >
 > **Al volver:** ya no queda ningún pendiente del núcleo. Queda el tablero Trello público
 > y los wireframes de Figma (externos al repo; ayudan a la nota pero la app ya está
-> completa y publicada) y **preguntarle a la docente qué es el "acceso como invitado"**,
-> que es lo único que no se puede resolver leyendo las guías.
+> completa y publicada).
 >
 > Con el punto 10 cerrado **ninguna historia de usuario está sin tests**.
 > Lo que queda es casi todo documental o decisiones de la docente. Ver "PUNTO 7".
@@ -1174,7 +1174,12 @@ Lo que **si** tiene valor real:
 | Las claves de la API en el servidor, nunca en el navegador | ✅ `config/services.php` |
 | Formato de nota `Como [rol], quiero [acción] para [beneficio]` | ✅ las 16 de la guía 4.3 |
 
-### ⬜ Pregunta abierta: el "acceso como invitado" de la docente
+### ✅ Descartado: el "acceso como invitado" de la docente
+
+> **Decisión tomada el 21 de octubre de 2026: no se implementa nada.** Se deja de
+> considerarlo un pendiente y se asume que se refería al **tablero Trello público**, no a
+> una funcionalidad del sistema web. El catálogo `/catalogo` ya es público, así que
+> "mirar la tienda sin iniciar sesión" hoy ya funciona.
 
 La docente dijo que hacía falta "una opción para que ella entre a mirar como invitado".
 **Revisadas las 3 guías HTML y el `.txt`, la palabra "invitado" no aparece en ninguna.**
@@ -1188,20 +1193,20 @@ Lo que sí aparece:
 | Guía 4.2 §7 | "**Invita al equipo y al docente**" — Compartir del tablero Trello |
 | `.txt` línea 38 | "Crea un tablero **público** ... llamado 'Gestión - ImportaChina'" |
 
-**Hipótesis más probable:** se refiere al **tablero Trello público**, no al sistema web.
-No requiere código: es cambiar la visibilidad del tablero a "Público".
-**Pendiente de confirmar con ella antes de implementar nada.**
+De ahí sale la interpretación adoptada: es el **tablero Trello público**. No requiere
+código, solo cambiar la visibilidad del tablero a "Público" (sigue en la lista de tareas
+externas del repo).
 
-Si resultara que sí es dentro del sistema web, las opciones son:
+Quedan **descartadas** estas tres variantes dentro del sistema web:
 
-| Opción | Qué implica |
-|---|---|
-| A. Cuenta con credenciales | Un usuario más en el seeder (ej. `docente@importachina.com`). Lo más simple. |
-| B. Rol `Invitado` de solo lectura | Cuarto rol. Entra a panel, pedidos y reportes, pero sin botones de guardar/borrar. Hay que decidir si cuenta como los 3 roles de la guía. |
-| C. Botón "Entrar como invitado" en el login | Entra sin contraseña, solo lectura. Rápido de mostrar, menos realista. |
+| Opción | Qué implicaba | Estado |
+|---|---|---|
+| A. Cuenta con credenciales | Un usuario más en el seeder (ej. `docente@importachina.com`). | ❌ No se hace |
+| B. Rol `Invitado` de solo lectura | Cuarto rol. Entraría a panel, pedidos y reportes, sin botones de guardar/borrar; además choca con los 3 roles de la guía. | ❌ No se hace |
+| C. Botón "Entrar como invitado" en el login | Entrar sin contraseña, solo lectura. Rápido de mostrar, menos realista. | ❌ No se hace |
 
-**Nota:** el catálogo `/catalogo` **ya es público** (se entra sin credenciales), así que "mirar
-la tienda sin iniciar sesión" hoy ya funciona.
+No se agregan roles, usuarios ni rutas: el sistema queda con los **3 roles** que pide la
+guía 4.1 §1.
 
 ---
 
@@ -1301,8 +1306,7 @@ php vendor\bin\pint app/.../X.php tests/...
 ## Checklist para retomar
 
 **Orden sugerido:** ya no queda ningún pendiente de código ni documental del núcleo. Lo
-único que resta son cosas externas al repo (tablero Trello público y wireframes de Figma)
-y la pregunta del "acceso como invitado" para la docente.
+único que resta son cosas externas al repo (tablero Trello público y wireframes de Figma).
 
 - [x] **Punto 8 (el bug de HU-01):** hecho el 4 de octubre. `RegisteredUserController::store()`
       ahora asigna `role_id` con `Role::firstOrCreate(['name' => 'Cliente'])->id` y `status`
@@ -1325,7 +1329,8 @@ y la pregunta del "acceso como invitado" para la docente.
 - [x] **Punto 9 (idioma):** **cerrado el 13 de octubre.** `lang/es.json` traduce las pantallas
       de Breeze que quedaban en inglés y `LocalizationTest` (6 tests) lo cubre. Ver la
       sección de arriba.
-- [ ] **Punto 7, lo que bloquea la nota:**
+- [x] **Punto 7, lo que bloqueaba la nota:** todo cerrado entre el 8 y el 21 de octubre.
+      Solo quedan fuera del repo el tablero Trello público y los wireframes de Figma.
       - [x] documento de requerimientos (§1-2 de la guía 4.1) — **hecho el 13 de octubre**,
             en `docs/Documento_Requerimientos_ImportaChina.docx`
       - [x] tests de HU-09 — hechos en el punto 10 (`CatalogPageTest`, 10 tests)
@@ -1342,5 +1347,54 @@ y la pregunta del "acceso como invitado" para la docente.
 - [x] **Limpieza:** **hecha el 13 de octubre.** Borrados `welcome.blade.php` +
       `HomeController` (código muerto) y los duplicados de `docs/`. `php artisan test` →
       **270 passing**.
-- [ ] **Pregunta para la docente:** confirmar si el "acceso como invitado" es el tablero
-      Trello público o una cuarta persona en el sistema web. Ver la sección de arriba.
+- [x] **Acceso como invitado:** **descartado el 21 de octubre.** Se asume que se refería al
+      tablero Trello público, no al sistema web, así que no se agregan roles, usuarios ni
+      rutas: siguen los 3 roles de la guía 4.1 §1. Ver la sección de arriba.
+
+---
+
+## COPIA INDEPENDIENTE PARA `anazabalapereira-tech` (21 de octubre de 2026)
+
+> **Objetivo:** Tener una copia 100% independiente del proyecto para que ella lo tenga en su propia cuenta de GitHub y lo despliegue en su propia cuenta de Railway. Al modificar el original, la copia **NO** se ve afectada y viceversa.
+
+### ✅ HECHO
+
+| # | Tarea | Detalle |
+|---|---|---|
+| 1 | **Commit del docx pendiente** | `docs/Documento_Requerimientos_ImportaChina.docx` commiteado en rama `docs/docx-20oct`, PR #30 mergeado a `master`. |
+| 2 | **Suite verificada** | `php artisan test` → **270 passing (971 assertions)** en original y en la copia. |
+| 3 | **Carpeta copia local** | Creada en `E:\PROYECTO SOCIOCOMUNITARIO PRODUCTIVO\importachina-copia`. Clonada con historial completo, sin `vendor/`, `node_modules/` ni `.env`. |
+| 4 | **Dependencias y build** | `composer install` + `npm install` + `npm run build` generados. `.env` creado localmente (ignorado por git). |
+| 5 | **Repo nuevo en GitHub** | Creado `https://github.com/anazabalapereira-tech/importachina` (público, **sin fork**, `forks: 0`, `parent: null`). Historial completo subido con PAT con scope `repo`. |
+| 6 | **README actualizado** | Apuntado al repo de ella y corregido el conteo de pruebas a **270 passing (971 assertions)**. PR #1 mergeado. |
+| 7 | **Token validado** | PAT classic con scope `repo` validado para `anazabalapereira-tech` y usado para subir el historial. **Pendiente revocar** (tarea 16). El valor literal se quitó de este documento el 21 de octubre: un token no se commitea ni se comparte. |
+
+### ⏸ PENDIENTE (Railway en incidencia global)
+
+> **Bloqueado:** Railway está con *Major Outage*. *"Dashboard, API and CLI unavailable, builds paused. New builds remain paused in all regions."* ([status.railway.com](https://status.railway.com/))  
+> **Decisión tomada:** Que **ella se cree su propia cuenta en Railway** con el Free Trial de 30 días. Así evita el límite de proyectos de la cuenta actual (`exciting-possibility` + `salon-glamour`) y queda totalmente independiente.
+>
+> **Revisado el 21 de octubre a las 13:40 UTC:** el incidente **sigue abierto**. La API ya
+> volvió, pero *"builds remain paused"* en todas las regiones, así que las tareas 9–15 siguen
+> esperando. No es un problema del proyecto: cuando Railway esté *Operational*, se retoma en
+> el punto 8.
+
+| # | Tarea | Detalle |
+|---|---|---|
+| 8 | **Esperar a que Railway se restablezca** | Revisar [status.railway.com](https://status.railway.com/) hasta que todo esté *Operational*. |
+| 9 | **Crear cuenta en Railway** | Ella crea su cuenta en [railway.app](https://railway.app) con su email. |
+| 10 | **Desplegar desde GitHub** | *New Project → Deploy from GitHub repo* → seleccionar `anazabalapereira-tech/importachina`. Si pide autorizar la GitHub App, aceptarlo. |
+| 11 | **Añadir MySQL** | *New → Database → Add MySQL*. Se crea con volumen nuevo. |
+| 12 | **Generar dominio** | *Settings → Networking → Generate Domain* → guardar la URL `*.up.railway.app` |
+| 13 | **Configurar variables de entorno** | Copiar las 26 variables del proyecto original. **Cambiar obligatoriamente:** `APP_KEY` (generar nueva con `php artisan key:generate --show`), `APP_URL` (poner la URL nueva con `https://`), `DB_PASSWORD` (la del **plugin MySQL nuevo**). Mantener `ALIEXPRESS_DEMO=true`, `APP_DEBUG=false`, `LOG_CHANNEL=stderr`. |
+| 14 | **Verificación en vivo** | Comprobar `/catalogo` 200, login con los 3 usuarios, `/admin/usuarios` y `/admin/reportes` como Admin, `/vendedor/pedidos` como Vendedor. |
+| 15 | **Entregar** | Pasarle la URL final + credenciales de prueba (`admin@/vendedor@/cliente@importachina.com` → `ImportaChina#2026`) + indicarle que puede clonar desde `https://github.com/anazabalapereira-tech/importachina` |
+| 16 | **Seguridad** | **Revocar el PAT** de `anazabalapereira-tech` desde *Settings → Developer settings → Personal access tokens → Tokens (classic) → Delete*. Fue el que se usó para subir el historial; el valor literal ya no está en este documento. |
+
+### Notas importantes
+
+- **Independencia total:** Su repo + su proyecto Railway + su MySQL. Un `git push` tuyo al repo original **NO** redespliega el sitio de ella.
+- **Procfile listo:** Ya tiene `web: php artisan migrate --force --seed && php artisan serve --host=0.0.0.0 --port=$PORT` por lo que `migrate` + `seed` corren en el primer deploy.
+- **Seeders idempotentes:** Tienen guard para no duplicar pedidos ni usuarios. También está el guard de `DemoSalesSeeder`.
+- **No copiar `.env`:** Nunca subir el `.env` al repo. Solo pasarle las variables al panel de Railway.
+- **README corregido:** Ya apunta a su propio repositorio.
